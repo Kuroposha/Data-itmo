@@ -62,16 +62,73 @@ b = 5
 
 a, b = tst_1(a, b)
 
-# Переменное количество аргументов
+# Именованные аргументы
 
+print(powpow(qw=3, num=9))
+
+# Переменное количество аргументов
 # название функции - глагол
 
 def summa(*args):
     # *args - tuple
     return sum(args)
+def tst_2(*args, **kwargs):
+    print(type(args), args) #tuple
+    print(type(kwargs), kwargs) #dict
+
 
 print(summa(1, 2))
 print(summa(1, 2, 3, 4))
 print(summa())
 
-# Именованные аргументы
+tst_2(1, 2, 3, a=1, b=3, c=5)
+
+args = (10, 11, 12)
+kwargs = {'d': 20, 'r': 50}
+
+tst_2(*args, **kwargs)#key-ward-arguments
+# количество элементов, разворачиваемых из списка или кортежа в функ
+# должно совпадать с поз аргументами
+# смешивать арг с поз и арг с им нельзя
+
+# Замыкания
+
+def trim(chars=None): #Функция каррирования
+    # замкнутая область видимости
+    def funk_in(sts):
+        return sts.strip(chars)
+    return funk_in
+
+spaces_trim = trim()
+slashes_trim = trim('\\/|')
+
+print(spaces_trim)
+print(spaces_trim("         username         "))
+
+print(slashes_trim)
+print(slashes_trim('///////lasts|'))
+
+
+"""
+ Облости видимости переменных и время их жизни
+1) Глобальная область видимости
+- все кроме функций и классов
+ - пока работает скрипт
+  - получаем доступ из любой области видимости
+   - это ЗЛО
+2) Локальная область видимости
+- функции, классы, лок пер
+ - пока работает функ, класс
+  - доступ только внутри класса, функции
+   - добро
+"""
+
+glob = 666
+
+def func_666():
+    #global glob
+    glob = 777
+    print(glob)
+
+func_666()
+print(glob)
