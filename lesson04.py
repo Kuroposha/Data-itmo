@@ -107,7 +107,35 @@ print(spaces_trim("         username         "))
 
 print(slashes_trim)
 print(slashes_trim('///////lasts|'))
+# Анонимная функция ( без имени, лямбда функция)
+"""
+sqrt = lambda x : x ** 0.5 #присвоение люмбда функции в переменную осуждается пепом
+x = 9
+print('Корень числа {} = {}'.format((x, sqrt(x)))) # ERORR!!!!!
+ERORR
+ls = (list(filter(lambda e: e % 2, ls))
+ls = list(map(lambda e: e ** 2, ls))
+ERORR
+print(lst)
+"""
 
+# Рекурсивная функция
+# Прямая рекурсия
+def factorial(n):
+    return 1 if n == 0 else n * factorial(n-1)
+
+print(factorial(5))
+
+# The most danger type of requ
+"""
+Косвенная рекурсия
+
+def a():
+    b()
+
+def b():
+    a()
+"""
 
 """
  Облости видимости переменных и время их жизни
@@ -132,3 +160,20 @@ def func_666():
 
 func_666()
 print(glob)
+
+
+def wrapper():
+    external = 777
+
+    def funk_666():
+        global glob
+        nonlocal external # only Py3
+
+        glob = 777
+        external = 888
+
+    funk_666()
+
+    print(external, glob)
+
+wrapper()
