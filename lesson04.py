@@ -177,3 +177,6 @@ def wrapper():
     print(external, glob)
 
 wrapper()
+
+
+# Процедурная функция? 
