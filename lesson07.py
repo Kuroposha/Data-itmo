@@ -56,7 +56,8 @@ sql="""
         active TYNYINT NOT NULL DEFAULT 0
     );
     """
-
+'''Коммит происходит автоматически только если контекстный менеджер,
+а так у курсора есть метод'''
     """если исп в качестве ключа беззнаковое.
     ВЙ
 какой то интерфай
@@ -152,3 +153,17 @@ try:
 finally:
     conn.close()
 # эту конструкцию заменяет контекстный менеджер
+
+
+"""Удаление таблиц
+DELETE FROM table WHERE pk=?
+DELETE FROM table WHERE id_prod=? AND id_cost=?
+DELETE FROM table WHERE id_prod=? OR id_cost=?
+DELETE FROM table WHERE id_prod=? IN id_cost=?
+DELETE FROM table WHERE id_prod=? NOT id_cost=?
+Логика работает
+
+быть очень остарожным с удалением. первичный ключ = ?
+нет никаких предупреждений
+
+"""
