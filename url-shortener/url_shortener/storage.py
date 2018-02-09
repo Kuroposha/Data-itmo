@@ -1,9 +1,12 @@
 import os.path as Path
 import sqlite3
 # можно поменять на другое хранилище
+from .converter import convert, inverse
 
 # Все SQL завпросы лучше всего вводить в виде констант,
 #а также определить, где будут лежать эти запросы
+
+
 
 SQL_SELECT_ALL = '''
     SELECT
@@ -25,13 +28,24 @@ SQL_UPDATE_SHORT_URL = '''
 '''
 # Если пропустить WHERE можно потереть данные во всей таблице
 
+def dickt_factory(cursor, row):
+    d = {}
+
+    print(cursor.description)
+    print(row)
+
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+
+    return d
+
 def connect(db_name=None):
     """Устанавливает соединение с БД """
     if db_name is None:
         db_name = ':memory:'
 
     conn = sqlite3.connect(db_name)
-    # здесь бюудет магия
+    conn.row_factory = dickt_factory
 
     return conn
 
@@ -69,7 +83,7 @@ def add_url(conn, url, domain=''):
 
         pk = cursior.lastrowid
 # lastrowid содержит последний набранный идентификатор в последней таблице
-        short_url = '{}/{}'.format(domain.strip('/'), pk)
+        short_url = '{}/{}'.format(domain.strip('/'), convert(pk))
 # на месте пк появится конверт в нашу СС
 
         conn.execute(SQL_UPDATE_SHORT_URL, (short_url, pk))
@@ -83,3 +97,26 @@ def find_url_by_origin(conn, url):
     with conn:
         cursor = conn.execute(SQL_SELECT_URL_BY_ORIGIN, (url,))
         return cursor.fetchone()
+
+
+def find_all(conn):
+    """НАйти все адреса в БД"""
+    with conn:
+        cursor = conn.execute(SQL_SELECT_ALL)
+        return cursor.fetchall()
+        #return conn.execute(SQL_SELECT_ALL).fetchall
+
+def find_url_by_pk (conn, pk):
+    """Найти УРЛ по первичному ключу"""
+    with conn:
+        cursor = conn.execute(SQL_SELECT_URL_BY_PK(pk,))
+        return cursor.fetchall()
+
+def find_url_by_short(conn, short_url):
+    """Найти оригинальный урл по короткому"""
+    short_url = short_url.rsplit('/', 1).pop()
+    #получим список с одним эл-том, всегда когда режем сплитом, получаем 1 элт
+    # регулярные выражения
+    pk = invers(short_url)
+    return find_url_by_pk(conn, pk)
+# работает не до конца правильно. сравнить с оригинальным кодом

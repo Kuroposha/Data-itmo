@@ -27,6 +27,16 @@ def action_find():
 
 def action_find_all():
     """Вывести все URL-адреса"""
+    with get_connection() as conn:
+        urls = storage.find_all(conn)
+
+        for url in urls:
+            # template = '{short_url} - {original_url} - {created}'
+            # template.format(short_url=url['short_url'])
+            template = '{url[short_url]} - {url[original_url]} - {url[created]}'
+            print(template.format(url=url))
+            #попробовать строку превратить в даетайм
+
 
 
 def action_show_menu():
