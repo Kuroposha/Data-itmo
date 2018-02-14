@@ -1,0 +1,10 @@
+
+[2018-02-12 21:09:26] Function: "func" called with:
+    -> positional arguments: (1, 2)
+    -> keyword arguments: {}
+Returns: 3
+
+[2018-02-12 21:09:26] Function: "func" called with:
+    -> positional arguments: (4, 5)
+    -> keyword arguments: {}
+Returns: 9

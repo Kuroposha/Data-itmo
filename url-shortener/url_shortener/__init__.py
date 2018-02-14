@@ -85,7 +85,7 @@ def main():
         storage.initialize(conn)
 
     action_show_menu()#ругается и говорит что TypeError: 'NoneType' object is not callable
-
+-11
     while 1:
         cmd = input('\nВведите команду: ')
         action = actions.get(cmd)
