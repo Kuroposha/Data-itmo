@@ -1,5 +1,5 @@
 """
-ORM - object-relational mapper
+ORM - db.Entity-relational mapper
 или объектно реляционное отображение
 ооп которое связывает бд с объектно ориентированным кодом
 бд это важно
@@ -13,78 +13,92 @@ ORM - object-relational mapper
 
 
 """
+from datetime import datetime
 
-class Category(object):
+from pony.orm import (
+    Database,
+    Required, Optional, Set, PrimaryKey,
+    LongStr
+    )
+
+db = Database('sqlite', 'estore.sqlite', create_db=True)
+# db.bind() если без аргументов
+
+class Category(db.Entity):
     """Категория товара"""
-    title = str
-    description = str
+    title = Required(str, 50)
+    description = Optional(LongStr)
     parent #ссылка на саму себ
     media
     products
 
-class Product(object):
+
+class Product(db.Entity):
     """Товар"""
-    title = str
-    price = float
-    description = str
+    title = Required(str, 500)
+    price = Required(float)
+    description = Optional(LongStr)
     categories
     comment
     media
 
 
-class Customer(object):
+class Customer(db.Entity):
     """Покупатель"""
-    discuont = float #размер скидки
-    phone = str
-    email = str
-    name = str
+    discuont = Optional(float, default=1) #размер скидки, где 1 это 100%
+    phone = Required(str, 20)
+    email = Optional(str, 100)
+    name = Optional(str, 255)
 
-class Order(object):
+class Order(db.Entity):
     """Заказ"""
     customer
     order_items
     status
-    created
+    created = Optional(datetime)
 
+    def before_insert(self):
+        super().before_insert()
+        self.creater = datetime.now()
 
-class Status(object):
+class Status(db.Entity):
     """Справочник"""
-    name = str
+    name = PrimaryKey(str, 50)
 
-class Cart(object):
+class Cart(db.Entity):
     """Корзина"""
     customer
     cart_items
 
 
-class CartItem(object):
+class CartItem(db.Entity):
     """Продукт в корзине"""
     product
-    amount
+    amount = Optional(int, default=1, min=1)
 
-class OrderItems(object):
+class OrderItems(db.Entity):
     """Продукт в заказе"""
     product
-    amount
+    amount = Optional(int, default=1, min=1)
 
-
-
-class Page(object):
-    """Страница сайта"""
-
-# PonyORM & Flask
-
-class Language(object):
-    """Язык - справочник"""
-
-class Media(object):
-    """Мультимежиа ресурс"""
-
-class Comment(object):
-    """отзывы или комментарии"""
-
-"""Связь с соцсетями можно вписать через сторонние библиотеки"""
-class Sale(object):
-    """Банеры под акции и распродажи"""
-    """Размер скидки, промокод"""
-    #Обсуждается
+#
+#
+# class Page(db.Entity):
+#     """Страница сайта"""
+#
+# # PonyORM & Flask
+#
+# class Language(db.Entity):
+#     """Язык - справочник"""
+#
+# class Media(db.Entity):
+#     """Мультимежиа ресурс"""
+#
+# class Comment(db.Entity):
+#     """отзывы или комментарии"""
+# #
+# """Связь с соцсетями можно вписать через сторонние библиотеки"""
+# class Sale(db.Entity):
+#     """Банеры под акции и распродажи"""
+#     """Размер скидки, промокод"""
+#     #Обсуждается
