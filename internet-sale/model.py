@@ -23,7 +23,7 @@ from pony.orm import (
     set_sql_debug, show
     )
 
-db = Database('sqlite', 'estore.sqlite', create_db=True)
+db = Database()#'sqlite', 'estore.sqlite', create_db=True)
 # db.bind() если без аргументов
 
 class Category(db.Entity):
@@ -107,17 +107,17 @@ class Comment(db.Entity):
 # class Sale(db.Entity):
 #     """Банеры под акции и распродажи"""
 #     """Размер скидки, промокод"""
-#     #Обсуждается
-set_sql_debug(True)
-db.generate_mapping(create_tables=True)
-
-#дб сессию можно юзать через КМ или декоратор
-with db_session:
-    # # customer = Customer(phone='+79992100246')
-    # customer = Customer[1]
-    # status = Status(name = "'i'm drowse")
-    #
-    sleep(5)
+# #     #Обсуждается
+# set_sql_debug(True)
+# db.generate_mapping(create_tables=True)
+# #
+# #дб сессию можно юзать через КМ или декоратор
+# with db_session:
+#     # # customer = Customer(phone='+79992100246')
+#     # customer = Customer[1]
+#     # status = Status(name = "'i'm drowse")
+#     #
+#     ssleep(5)
     # order = Order(customer=customer,
     #               status=status)
     # show(order)
