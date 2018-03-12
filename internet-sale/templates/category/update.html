@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_title %}Отредактировать Категорию{% endblock %}
+
+{% block page_content %}
+    {{ wtf.quick_form(form, id="category_form") }}
+    <input type="submit" form="category_form" value="Изменить">
+
+
+    <!--<form method="POST">-->
+        <!--&lt;!&ndash;-->
+        <!--<input type="">-->
+        <!-- - text - однострочное поле ввода-->
+        <!-- - password - поле ввода пароля-->
+        <!-- - file - выбор файла-->
+        <!-- - radio - радио кнопка-->
+        <!-- - checkbox - флажок-->
+        <!-- - submit - кнопка отправки формы-->
+        <!-- - reset - кнопка сброса формы-->
+        <!-- - button - это кнопка-->
+        <!-- - email - однострочное поле ввода почты-->
+        <!-- - url - однострочное поле ввода URL-адреса-->
+        <!-- - color - выбор цвета-->
+
+        <!--<textarea> - многосрочное поле ввода-->
+        <!--&ndash;&gt;-->
+
+    <!--</form>-->
+{% endblock %}

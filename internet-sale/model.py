@@ -17,13 +17,15 @@ from datetime import datetime
 from time import sleep
 
 from pony.orm import (
-    Database,
+    # Database,
     Required, Optional, Set, PrimaryKey,
     LongStr,
     set_sql_debug, show
     )
+from app import pony
 
-db = Database()#'sqlite', 'estore.sqlite', create_db=True)
+db = pony.db
+# db = Database()#'sqlite', 'estore.sqlite', create_db=True)
 # db.bind() если без аргументов
 
 class Category(db.Entity):
@@ -34,6 +36,9 @@ class Category(db.Entity):
     media = Set('Media')
     products = Set('Product')
     categories = Set('Category', reverse='parent')
+
+    def __str__(self):
+        return self.title
 
 class Product(db.Entity):
     """Товар"""

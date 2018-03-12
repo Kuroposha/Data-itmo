@@ -1,24 +1,30 @@
 {% extends "layouts/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_title %}Регистрация{% endblock %}
 
 {% block page_content %}
-  <form method="post">
-      <!--
-      <input type="">
-      - text - однострочное поле ввода
-      - password - пароль
-      - file
-      - radio - кнопка единичного выбора
-      - checkbox - флажок
-      - submit
-      - reset
-      - button
-      - email
-      - url
-      - color
-      - textarea
-    -->
+    {{ wtf.quick_form(form, id="customer_form") }}
+    <input type="submit" form="customer_form" value="Зарегистрироваться">
 
-  </form>
+
+    <!--<form method="POST">-->
+        <!--&lt;!&ndash;-->
+        <!--<input type="">-->
+        <!-- - text - однострочное поле ввода-->
+        <!-- - password - поле ввода пароля-->
+        <!-- - file - выбор файла-->
+        <!-- - radio - радио кнопка-->
+        <!-- - checkbox - флажок-->
+        <!-- - submit - кнопка отправки формы-->
+        <!-- - reset - кнопка сброса формы-->
+        <!-- - button - это кнопка-->
+        <!-- - email - однострочное поле ввода почты-->
+        <!-- - url - однострочное поле ввода URL-адреса-->
+        <!-- - color - выбор цвета-->
+
+        <!--<textarea> - многосрочное поле ввода-->
+        <!--&ndash;&gt;-->
+
+    <!--</form>-->
 {% endblock %}
