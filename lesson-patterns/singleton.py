@@ -32,6 +32,7 @@ def singleton(cls):
 @singleton
 class Registry(object):
     __slots__ = ('__params',)
+    
     def __init__(self):
         self.__params = {}
 
