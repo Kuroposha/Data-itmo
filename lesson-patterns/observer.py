@@ -1,7 +1,9 @@
 from abc import ABCMeta, abstractmethod
 from random import rangrange
 
+
 #Observer - Наблюдатель
+
 class Subject(metaclass=ABCMeta):
     def __init__(self):
         self.__observes = []
@@ -17,6 +19,7 @@ class Subject(metaclass=ABCMeta):
     def notify_observer(self):
         for observer in self.__observes:
             observer.handle_event(self)
+
 
 class Observer(metaclass=ABCMeta):
     @abstractmethod
@@ -41,10 +44,12 @@ class LoginHandler(Subject):
             3. Ошибка провайдера, посылаем cookie
         """
         self.result = randrange(3)
-        self.notify_observers
+        self.notify_observers()
+
+
 class LoggerObserver(Observer):
     def handle_event(self, subject):
-        if subject.result == 0:
+        # if subject.result == 0:
             print('Пишем в access.log')
 
 
