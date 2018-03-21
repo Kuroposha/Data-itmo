@@ -1,11 +1,12 @@
 import sys
 
-from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import(
+from PyQt5.QtCore import QObject, Qt
+from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget,
     QLabel, QDoubleSpinBox, QPushButton,
     QVBoxLayout
 )
+
 
 class Converter(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -13,6 +14,7 @@ class Converter(QMainWindow):
         self.initUi()
         self.initLayouts()
         self.initSignals()
+
 
     def initUi(self):
         self.setWindowTitle('Конвертер валют')
@@ -26,14 +28,24 @@ class Converter(QMainWindow):
 
         self.resultAmount = QDoubleSpinBox(self)
         self.resultAmount.setMaximum(999999999)
-        self.resultAmount.setReadOnly(True)
+        #self.resultAmount.setReadOnly(True)
 
         self.convertBtn = QPushButton('Перевести', self)
+        self.convertBtn.setDisabled(True)
+
+        self.clearBtn = QPushButton('Сбросить', self)
+
+
+    def initSignals(self):
+        self.convertBtn.clicked.connect(self.onClickConvertBtn)
+        self.clearBtn.clicked.connect(self.onClickClearBtn)
+        self.srcAmount.valueChanged.connect(self.setButtonAvailability)
+        self.resultAmount.valueChanged.connect(self.setButtonAvailability)
 
 
     def initLayouts(self):
         w = QWidget(self)
-        self.mainLayout = QVBoxLayout()
+        # self.mainLayout = QVBoxLayout()
 
         self.mainLayout = QVBoxLayout(w)
         self.mainLayout.addWidget(self.srcLabel)
@@ -41,19 +53,36 @@ class Converter(QMainWindow):
         self.mainLayout.addWidget(self.resultLabel)
         self.mainLayout.addWidget(self.resultAmount)
         self.mainLayout.addWidget(self.convertBtn)
+        self.mainLayout.addWidget(self.clearBtn)
 
         self.setCentralWidget(w)
 
-    def initSignals(self):
-        self.convertBtn.clicked.connect(self.onClickConvertBtn)
 
     def onClickConvertBtn(self):
-        value = self.srcAmount.value()
+        src_value = self.srcAmount.value()
+        res_value = self.resultAmount.value()
 
-        if value:
-            self.resultAmount.setValue(value / 30)
-
+        if src_value:
+            self.resultAmount.setValue(src_value / 30)
+        elif res_value:
+            self.srcAmount.setValue(res_value * 30)
             #setValue можно исп как слот
+
+    def onClickClearBtn(self):
+        self.resultAmount.setValue(0)
+        self.srcAmount.setValue(0)
+
+    def setButtonAvailability(self):
+        src_value = self.srcAmount.value()
+        res_value = self.resultAmount.value()
+        # check = src_value and res_value
+
+        if src_value and res_value or not src_value and not res_value:
+            self.convertBtn.setDisabled(True)
+        else:
+            self.convertBtn.setDisabled(False)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
